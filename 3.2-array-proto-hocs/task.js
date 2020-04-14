@@ -26,18 +26,24 @@ function sum(...args) {
  function memorize (fn, limit) {
 
   const memory = [];
-  const currentResult = {}; 
+   
   
 
-  return function () {
-
-    currentResult.result = fn();
+  return function (...args) {
+    let currentResult = {};
+    currentResult.result = fn(...args);
+    currentResult.args = args;
+    
+    let findInMemory = memory.find((item, index, array) => compareArrays(item.args, currentResult.args));
+    
+    if(findInMemory)
     memory.push(currentResult);
-    console.log(currentResult);
    }
 
  }
 
 
- const mSum = memorize(sum, 5);
+ const mSum = memorize(sum, 2);
+ mSum(3, 4); // 7
+ mSum(1, 3); // 4
  mSum(3, 4);
