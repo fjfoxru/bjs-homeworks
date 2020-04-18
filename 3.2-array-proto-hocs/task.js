@@ -20,10 +20,7 @@ function sum(...args) {
     let currentResult = {};
     currentResult.args = args;
     
-    let findInMemory = memory.find((item) => {
-      if(compareArrays(item.args, currentResult.args)) {
-        return item.result;
-      }});
+    let findInMemory = memory.find((item) => compareArrays(item.args, currentResult.args));
 
     if(!findInMemory) {
       currentResult.result = fn(...args);
@@ -31,6 +28,7 @@ function sum(...args) {
       if(memory.length > limit) {
         memory.shift();
       }
+      return currentResult.result;
     }
  }
 }
