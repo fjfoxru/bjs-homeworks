@@ -17,20 +17,20 @@ function sum(...args) {
  function memorize (fn, limit) {
   const memory = [];
   return function (...args) {
-    let currentResult = {};
-    currentResult.args = args;
     
-    let findInMemory = memory.find((item) => {
-      if(compareArrays(item.args, currentResult.args)) {
-        return item.result;
-      }});
-
-    if(!findInMemory) {
+    
+    let findInMemory = memory.find((item) => compareArrays(item.args, ...args));
+    if(findInMemory) {
+      return findInMemory.result;
+    } else if(!findInMemory) {
+      let currentResult = {};
+      currentResult.args = args;
       currentResult.result = fn(...args);
       memory.push(currentResult);
       if(memory.length > limit) {
         memory.shift();
       }
+      return currentResult.result;
     }
  }
 }
